@@ -1,0 +1,19 @@
+product_id,product_name,category,cost_price,unit_price
+P001,Rain Jacket,Outerwear,45,89
+P002,Wool Coat,Outerwear,80,169
+P003,Windbreaker,Outerwear,28,59
+P018,Puffer Vest,Outerwear,42,95
+P004,Cotton Tee,,6,18
+P005,Flannel Shirt,Tops,14,34
+P006,Knit Sweater,Accessories,22,54
+P007,Polo Shirt,Tops,12,29
+P008,Slim Jeans,Bottoms,24,59
+P009,Chino Pants,Bottoms,20,49
+P010,Rain Jacket,Outerwear,16,39
+P011,Running Shoes,Footwear,38,89
+P012,Canvas Sneakers,Footwear,32,49
+P013,Leather Boots,,55,129
+P014,Leather Belt,Accessories,9,24
+P015,Wool Scarf,Tops,8,22
+P016,Baseball Cap,Accessories,5,16
+P017,Tote Bag,Bottoms,11,29

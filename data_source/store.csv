@@ -1,0 +1,10 @@
+store_id,store_name,region,city,store_sqft,store_manager,store_open_date,store_close_date,latitude,longitude
+ST01,Downtown Flagship,Northeast,"Boston, MA",8500,Alex Chen,2019-03-15,,42.3601,-71.0589
+ST02,Riverside Mall,Northeast,"Philadelphia, PA",6200,Alex Chen,2020-08-01,,39.9526,-75.1652
+ST05,Sunset Plaza,West,"Los Angeles, CA",9200,Alex Chen,2021-02-11,,34.0522,-118.2437
+ST03,Lakeview Center,Midwest,"Chicago, IL",5400,Jordan Lee,2018-05-20,,41.8781,-87.6298
+ST04,Union Square,Midwest,"Milwaukee, WI",7100,Jordan Lee,2017-11-02,2025-04-30,43.0389,-87.9065
+ST09,Elmwood Gate,Midwest,"Columbus, OH",5600,Jordan Lee,2025-04-01,,39.9612,-82.9988
+ST06,Harbor Point,West,"Seattle, WA",6800,Priya Nair,2019-09-30,,47.6062,-122.3321
+ST07,Magnolia Commons,South,"Atlanta, GA",5900,Priya Nair,2022-01-17,,33.749,-84.388
+ST08,Peachtree Corners,South,"Peachtree Corners, GA",6100,Priya Nair,2020-06-05,,33.9698,-84.2227
