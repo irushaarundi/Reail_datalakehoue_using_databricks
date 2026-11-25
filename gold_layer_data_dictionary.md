@@ -16,7 +16,7 @@ This document describes the Gold layer of the Retail Data Lakehouse (`workspace.
 
 > Note: the table names `fact_tanstractions` and `dim_promo_calander` carry misspellings inherited from the raw source data naming.
 
-## dim_date
+## 1. dim_date
 
 Purpose: Store the calendar dimension with date attributes (day, week, month, quarter, year, weekend flag) used to slice facts by time. Built by `Scripts/gold/gold_dim_date` from the date range spanned by `silver.transtractions`.
 
@@ -33,7 +33,7 @@ Purpose: Store the calendar dimension with date attributes (day, week, month, qu
 | year | INT | Year. |
 | is_weekend | INT | 1 if Saturday/Sunday, else 0. |
 
-## dim_product
+## 2. dim_product
 
 Purpose: Store product details (name, category, cost price, planned unit price) for analyzing sales by product and category. Built by `Scripts/gold/gold_dim_product` from `silver.product`.
 
@@ -46,7 +46,7 @@ Purpose: Store product details (name, category, cost price, planned unit price) 
 | cost_price | INT | Unit cost. |
 | plan_unit_price | INT | Planned/list unit price. |
 
-## dim_store
+## 3. dim_store
 
 Purpose: Store store details enriched with demographic and geographic data (region, city, size, manager, open/close dates, lat/long). Built by `Scripts/gold/gold_dim_store` from `silver.store`.
 
@@ -65,7 +65,7 @@ Purpose: Store store details enriched with demographic and geographic data (regi
 | longitude | DOUBLE | Geographic longitude. |
 | store_availability | STRING | Availability status. |
 
-## dim_promo_calander
+## 4. dim_promo_calander
 
 Purpose: Store promotional campaign details (discount, valid date range, store, category) for measuring promotion effectiveness. Built by `Scripts/gold/gold_dim_promo` from `silver.promo_calander`.
 
@@ -80,7 +80,7 @@ Purpose: Store promotional campaign details (discount, valid date range, store, 
 | end_date | DATE | Promo end date. |
 | store_id | STRING | Store the promo applies to. |
 
-## fact_tanstractions
+## 5. fact_tanstractions
 
 Purpose: Store sales transactions enriched with store, product, date, and promo surrogate keys along with quantity, price, discount, and revenue. Built by `Scripts/gold/gold_fact_transtraction` by joining `silver.transtractions` to all four dimensions; one row per transaction.
 
@@ -105,7 +105,7 @@ Purpose: Store sales transactions enriched with store, product, date, and promo 
 | loyalty_member | STRING | yes/no (mapped from 0/1 in Silver). |
 | revenue | DOUBLE | Computed as quantity x price x (1 - discount), rounded to 2 decimals. |
 
-## fact_inventory_snapshot
+## 6. fact_inventory_snapshot
 
 Purpose: Store periodic stock levels per store and product, enabling inventory and out-of-stock analysis. Built by `Scripts/gold/gold_fact_inventory_snapshot` from `silver.inventory_snapshot`; one row per store-product-snapshot-date.
 
@@ -119,7 +119,7 @@ Purpose: Store periodic stock levels per store and product, enabling inventory a
 | snapshot_date | DATE | Date of the inventory snapshot. |
 | units_on_hand | INT | Stock units on hand at snapshot. |
 
-## fact_daily_foot_traffic
+## 7. fact_daily_foot_traffic
 
 Purpose: Store daily visitor counts per store, enabling traffic trend analysis and the link between promotions and footfall. Built by `Scripts/gold/gold_fact_daily_foot_traffic` from `silver.daily_foot_trafic`; one row per store per day.
 
@@ -132,11 +132,3 @@ Purpose: Store daily visitor counts per store, enabling traffic trend analysis a
 | promo_key | INT | Foreign key to dim_promo_calander.promo_key. |
 | foot_traffic | INT | Visitor count for the day. |
 
-## Star schema relationships
-
-- fact_tanstractions.date_key -> dim_date.date_key
-- fact_tanstractions.store_key -> dim_store.store_key
-- fact_tanstractions.product_key -> dim_product.product_key
-- fact_tanstractions.promo_key -> dim_promo_calander.promo_key (matched on order_date within promo start/end dates, store_id, and category)
-- fact_inventory_snapshot joins dim_date, dim_store, and dim_product on date_key, store_key, and product_key
-- fact_daily_foot_traffic joins dim_date, dim_store, and dim_promo_calander on date_key, store_key, and promo_key
