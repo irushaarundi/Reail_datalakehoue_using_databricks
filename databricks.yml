@@ -1,1 +1,31 @@
+bundle:
+  name: retail_lakehouse
 
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: ${DATABRICKS_HOST}
+  prod:
+    mode: production
+    workspace:
+      host: ${DATABRICKS_HOST}
+      root_path: /Shared/.bundle/${bundle.name}/prod
+
+resources:
+  jobs:
+    retail_pipeline:
+      name: retail_pipeline
+      tasks:
+        - task_key: bronze
+          notebook_task:
+            notebook_path: ./Scripts/bronze.py
+        - task_key: silver
+          depends_on: [{ task_key: bronze }]
+          notebook_task:
+            notebook_path: ./Scripts/silver.py
+        - task_key: gold
+          depends_on: [{ task_key: silver }]
+          notebook_task:
+            notebook_path: ./Scripts/gold.py
