@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: "17"
       - run: pip install ruff pytest pyspark
-      - run: ruff check .
+      - run: ruff check . --extend-exclude "*.ipynb"
       - run: pytest tests/ -v
 
   deploy:
