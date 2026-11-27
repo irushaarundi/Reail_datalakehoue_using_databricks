@@ -19,7 +19,7 @@ jobs:
           java-version: "17"
       - run: pip install ruff pytest pyspark
       - run: ruff check . --extend-exclude "*.ipynb"
-      - run: pytest tests/ -v
+      - run: pytest test/ -v
 
   deploy:
     needs: test
