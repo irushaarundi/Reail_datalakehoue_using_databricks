@@ -1,0 +1,99 @@
+resources:
+  jobs:
+    Retail_Datalakhouse_Pipline:
+      name: Retail_Datalakhouse_Pipline
+      tasks:
+        - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/bronze/bronze
+            source: Git
+        - task_key: gold_layer_dim_date
+          notebook_task:
+            notebook_path: ./Scripts/gold/gold_dim_date
+            source: Git
+        - task_key: silver_layer_daily_foot_traffic
+          depends_on:
+            - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_daily_foot_trafic
+            source: Git
+        - task_key: silver_layer_inventory_snapshot
+          depends_on:
+            - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_inventory_snapshot
+            source: Git
+        - task_key: silver_layer_products
+          depends_on:
+            - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_product
+            source: Git
+        - task_key: gold_layer_dim_product
+          depends_on:
+            - task_key: silver_layer_products
+          notebook_task:
+            notebook_path: ./Scripts/gold/gold_dim_product
+            source: Git
+        - task_key: silver_layer_promo_calader
+          depends_on:
+            - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_promo_calander
+            source: Git
+        - task_key: gold_layer_dim_promo_calander
+          depends_on:
+            - task_key: silver_layer_promo_calader
+          notebook_task:
+            notebook_path: ./Scripts/gold/gold_dim_promo
+            source: Git
+        - task_key: silver_layer_store
+          depends_on:
+            - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_store
+            source: Git
+        - task_key: gold_layer_dim_store
+          depends_on:
+            - task_key: silver_layer_store
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_store
+            source: Git
+        - task_key: gold_layer_daily_foot_traffic
+          depends_on:
+            - task_key: gold_layer_dim_store
+            - task_key: silver_layer_daily_foot_traffic
+            - task_key: gold_layer_dim_date
+            - task_key: gold_layer_dim_promo_calander
+          notebook_task:
+            notebook_path: ./Scripts/gold/gold_fact_daily_foot_traffic
+            source: Git
+        - task_key: gold_layer_fact_inventery_snapshot
+          depends_on:
+            - task_key: silver_layer_inventory_snapshot
+            - task_key: gold_layer_dim_date
+            - task_key: gold_layer_dim_product
+            - task_key: gold_layer_dim_store
+          notebook_task:
+            notebook_path: ./Scripts/gold/gold_fact_inventory_snapshot
+            source: Git
+        - task_key: silver_layer_transtraction
+          depends_on:
+            - task_key: bronze_layer
+          notebook_task:
+            notebook_path: ./Scripts/silver/silver_transtractions
+            source: Git
+        - task_key: gold_layer_fact_transtaction
+          depends_on:
+            - task_key: silver_layer_transtraction
+            - task_key: silver_layer_products
+            - task_key: gold_layer_dim_store
+            - task_key: silver_layer_store
+            - task_key: gold_layer_dim_date
+            - task_key: gold_layer_dim_product
+          notebook_task:
+            notebook_path: ./Scripts/gold/gold_fact_transtraction
+            source: Git
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
