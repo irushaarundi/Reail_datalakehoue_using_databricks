@@ -17,4 +17,4 @@ targets:
       host: https://dbc-adb675f7-daaf.cloud.databricks.com/
       root_path: /Workspace/Users/irushaarundiperera@gmail.com/.bundle/${bundle.name}/prod
     run_as:
-      user_name: <your-email>
+      user_name: irusha99perera@gmail.com
